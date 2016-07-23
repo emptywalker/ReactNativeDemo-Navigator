@@ -1,6 +1,13 @@
 /**
  * Created by Administrator on 16/7/22.
  */
+
+const USER_MODELS = {
+    1:{name:'张三', age:23},
+    2:{name:'李四', age:24},
+    3:{name:'王五', age:25},
+};
+
 import React, {
     Component
 } from 'react';
@@ -28,6 +35,10 @@ class SecondView extends React.Component{
         });
     }
     _onPress () {
+        if (this.props.getUser){
+            let user = USER_MODELS[this.props.id];
+            this.props.getUser(user);
+        }
         this.props.navigator.pop();
     }
     render(){

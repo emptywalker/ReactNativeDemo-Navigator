@@ -20,6 +20,7 @@ class FirstView extends React.Component{
         super(props);
         this.state = {
             id : 3,
+            user:null,
         };
 
         this.props.route.title = '土冒';
@@ -43,22 +44,43 @@ class FirstView extends React.Component{
     }
 
     _onPress() {
+        let _this = this;
+        this.state.id ++ ;
         const {navigator} = this.props;
         navigator.push({
             title:'第二页',
             component:SecondView,
             params : {
-                id:this.state.id
+                id:(this.state.id % 3 + 1),
+                getUser: function (user) {
+                    _this.setState({
+                        user:user,
+                        id:(_this.state.id % 3 + 1),
+                    })
+                }
             }
         });
     }
     render () {
+        if (this.state.user){
+            return (
+                <View>
+                    <Text style={styles.info}>{JSON.stringify(this.state.user)}</Text>
 
-        return (
-            <TouchableOpacity onPress={this._onPress.bind(this)}>
-                <Text style={styles.text}>FirstView</Text>
-            </TouchableOpacity>
-        );
+                    <TouchableOpacity onPress={this._onPress.bind(this)}>
+                        <Text style={styles.text}>FirstView</Text>
+                    </TouchableOpacity>
+                </View>
+
+
+            );
+        }else {
+            return (
+                <TouchableOpacity onPress={this._onPress.bind(this)}>
+                    <Text style={styles.text}>FirstView</Text>
+                </TouchableOpacity>
+            );
+        }
     }
 }
 
@@ -66,11 +88,22 @@ const styles = StyleSheet.create({
     text:{
         fontSize:30,
         textAlign:'center',
-        height:300,
-        lineHeight:300,
+        height:150,
+        lineHeight:150,
         letterSpacing:5,
-        textDecorationColor:'#ff0000'
-    }
+        textDecorationColor:'#ff0000',
+        width:320
+    },
+
+    info:{
+        fontSize:15,
+        textAlign:'center',
+        height:150,
+        lineHeight:150,
+        // letterSpacing:5,
+        textDecorationColor:'#ff0000',
+        width:320
+    },
 
 });
 
